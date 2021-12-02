@@ -10,6 +10,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -20,7 +21,11 @@ import jdk.internal.util.xml.impl.Input;
 import objs.Entity;
 import objs.Vector;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import database.User;
+import database.Database;
+import menu.ScoresTable;
 
 public class Main extends Application {
   // dimensions of game window in pixels
@@ -80,9 +85,14 @@ public class Main extends Application {
     });
 
     // high scores page
-    Label scoreLabel = new Label();
-    scoreLabel.setText("high scores page");
-    highScores.getChildren().addAll(scoreLabel, backButton);
+    ArrayList<User> users = new ArrayList<>();
+    users = Database.getHighScores();
+
+    TableView<User> table = new TableView<>();
+    ScoresTable scoresTable = new ScoresTable();
+    table = scoresTable.makeTable(users);
+
+    highScores.getChildren().addAll(table, backButton);
     scoresPage = new Scene(highScores, 300, 300);
 
     // button that starts the game
