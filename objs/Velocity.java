@@ -24,7 +24,7 @@ public class Velocity {
 
   public void calcLoop(double deltaTime) {
     velocity.add(force.multiply(deltaTime, false));
-    force.divide(2).multiply(deltaTime);
+    force.divide(2);
 
     velocity.add(continuousForce.multiply(deltaTime, false));
 

@@ -9,10 +9,13 @@ public class Entity {
   protected Vector position;
   protected Velocity velocity;
   protected GameScene scene;
+  protected boolean useThingy;
 
-  public Entity(String imageFileName, Vector position, Vector scale, double gravity) {
+  public Entity(String imageFileName, Vector position, Vector scale, double gravity, boolean useThingy) {
     sprite = new Sprite(imageFileName, position);
     sprite.setScale(scale);
+
+    this.useThingy = useThingy;
 
     this.position = position;
 
@@ -42,7 +45,7 @@ public class Entity {
   }
 
   private void renderImage(GraphicsContext context) {
-    sprite.setPosition(position);
+    sprite.setPosition(new Vector(useThingy ? position.getX() - scene.distanceMoved : position.getX(), position.getY()));
     sprite.render(context);
   }
 
