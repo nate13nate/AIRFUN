@@ -5,16 +5,25 @@ import objs.Entity;
 import objs.Vector;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class CollisionHandler {
   private ArrayList<Collider> colliders;
 
-  public CollisionHandler(Entity[] entities) {
+  public CollisionHandler(LinkedList<Entity> entities) {
     colliders = new ArrayList<Collider>();
 
     for (Entity entity : entities) {
       colliders.add(entity.getCollider());
     }
+  }
+
+  public void addCollider(Entity entity) {
+    colliders.add(entity.getCollider());
+  }
+
+  public void removeCollider(Entity entity) {
+    colliders.remove(entity.getCollider());
   }
 
   public void start() {
@@ -32,5 +41,6 @@ public class CollisionHandler {
         other.action(collider, overlap);
       }
     }
+//    System.out.println("===========================================");
   }
 }

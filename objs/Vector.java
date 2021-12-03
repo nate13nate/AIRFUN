@@ -21,6 +21,18 @@ public class Vector {
     return this;
   }
 
+  public Vector sub(double n) {
+    x -= n;
+    y -= n;
+    return this;
+  }
+
+  public Vector sub(Vector n) {
+    x -= n.getX();
+    y -= n.getY();
+    return this;
+  }
+
   public Vector multiply(double n) {
     x *= n;
     y *= n;
@@ -36,6 +48,11 @@ public class Vector {
     x /= n;
     y /= n;
     return this;
+  }
+
+  public Vector divide(double n, boolean keepChanges) {
+    if (keepChanges) return divide(n);
+    return new Vector(x / n, y / n);
   }
 
   public double getX() {

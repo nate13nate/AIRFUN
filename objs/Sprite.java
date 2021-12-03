@@ -4,11 +4,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class Sprite {
-  private Image image;
-  private Vector scale;
-  private Vector size;
-  private Vector position;
-  private String filename;
+  protected Image image;
+  protected Vector scale;
+  protected Vector size;
+  protected Vector position;
+  protected String filename;
 
   public Sprite(String filename, Vector position) {
     this.filename = filename;
@@ -46,6 +46,8 @@ public class Sprite {
         false
     );
   }
+
+  public void setImages(String[] filenames) {}
 
   public Vector getScale() {
     return scale;

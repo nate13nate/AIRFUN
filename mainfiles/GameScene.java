@@ -8,9 +8,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import objs.Entity;
+import objs.Sprite;
+import objs.Vector;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class GameScene {
   public static InputHandler getDefaultInputHandler() {
@@ -31,10 +35,18 @@ public class GameScene {
   private InputHandler inputHandler;
   private CollisionHandler collisionHandler;
 
-  private Entity[] entities;
+  private PlatformGenerator platformGenerator;
+
+  private LinkedList<Entity> entities;
+
+  private Sprite background;
 
   private Canvas canvas;
   private GraphicsContext context;
+
+  public double distanceMoved = -200;
+  public double points = distanceMoved + 200;
+  public double increaseAmount = 4;
 
   public GameScene(
       Canvas canvas,
@@ -50,19 +62,26 @@ public class GameScene {
     this.inputHandler = inputHandler;
     this.inputHandler.setScene(this);
 
-    this.entities = entities;
+    this.entities = new LinkedList<Entity>(Arrays.asList(entities));
     for (int i = 0; i < entities.length; i++) {
       entities[i].setScene(this);
     }
 
-    collisionHandler = new CollisionHandler(entities);
+    collisionHandler = new CollisionHandler(this.entities);
 
     borderPane = new BorderPane(canvas);
     scene = new Scene(borderPane);
+
+    platformGenerator = new PlatformGenerator(this);
   }
 
   public void start() {
+    background = new Sprite("images\\background.png", new Vector(0, 0));
+    background.setScale(new Vector(5, 5));
+    background.render(context);
+
     // run start for program segments
+    platformGenerator.start(context);
     inputHandler.start();
     for (Entity entity : entities) {
       entity.calcStart();
@@ -80,7 +99,14 @@ public class GameScene {
         double deltaTime = previous > 0 ? now - previous : 1/60.0;
         previous = now;
 
+        distanceMoved += increaseAmount;
+        points = distanceMoved + 200;
+        increaseAmount += deltaTime * .07;
+
+        background.render(context);
+
         // run loop for different program segments
+        platformGenerator.loop(context, deltaTime);
         inputHandler.loop(deltaTime);
         for (Entity entity : entities) {
           entity.calcLoop(deltaTime);
@@ -109,5 +135,15 @@ public class GameScene {
 
   public int getInputValue(String key) {
     return inputHandler.getInputValue(key);
+  }
+
+  public void addEntity(Entity entity) {
+    entities.add(entity);
+    collisionHandler.addCollider(entity);
+  }
+
+  public void removeEntity(Entity entity) {
+    entities.remove(entity);
+    collisionHandler.removeCollider(entity);
   }
 }

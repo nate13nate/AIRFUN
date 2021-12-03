@@ -1,6 +1,7 @@
 package objs;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Collider {
   protected Vector offset;
@@ -52,6 +53,8 @@ public class Collider {
     double otherWidth= other.getWidth();
     double otherHeight = other.getHeight();
 
+//    System.out.printf("collider: %f %f\nother: %f %f\n\n", x, y, otherX, otherY);
+
     boolean noOverlap =
         x + width < otherX ||
             x > otherX + otherWidth ||
@@ -69,6 +72,7 @@ public class Collider {
     if (y + (height / 2.0) < otherY + (otherHeight / 2.0)) overlapY = -((y + height) - otherY);
     else overlapY = (otherY + otherHeight) - y;
 
+//    System.out.printf("colliding\n\n");
     return new Vector(overlapX, overlapY);
   }
 
@@ -97,7 +101,7 @@ public class Collider {
   }
 
   public double getX() {
-    return offset.getX() + parent.getPosition().getX();
+    return offset.getX() + parent.getPosition().getX() + (parent.useThingy ? 0 : parent.scene.distanceMoved);
   }
 
   public double getY() {
