@@ -24,5 +24,6 @@ public class Platform extends Entity {
     collider.removeInteractableTag("DEFAULT");
     collider.removeTag("DEFAULT");
     collider.addTag("PLAYER");
+    collider.addTag("SLOW");
   }
 }
