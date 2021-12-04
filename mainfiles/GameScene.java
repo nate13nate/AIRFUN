@@ -48,6 +48,8 @@ public class GameScene {
   public double points = distanceMoved + 200;
   public double increaseAmount = 4;
 
+  private boolean dead = false;
+
   public GameScene(
       Canvas canvas,
       GraphicsContext context,
@@ -100,7 +102,7 @@ public class GameScene {
         previous = now;
 
         distanceMoved += increaseAmount;
-        points = distanceMoved + 200;
+        if (!dead) points = distanceMoved + 200;
         increaseAmount += deltaTime * .07;
 
         background.render(context);
@@ -145,5 +147,9 @@ public class GameScene {
   public void removeEntity(Entity entity) {
     entities.remove(entity);
     collisionHandler.removeCollider(entity);
+  }
+
+  public void setDead(boolean dead) {
+    this.dead = dead;
   }
 }
