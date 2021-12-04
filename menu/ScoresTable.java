@@ -3,30 +3,24 @@ package menu;
 import database.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
-import javafx.geometry.Insets;
-
-import java.awt.*;
 import java.util.ArrayList;
 
 public class ScoresTable {
     public static TableView makeTable(ArrayList<User> users) {
-        //Label for education
-        Label label = new Label("File Data:");
-        Font font = Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 12);
-        label.setFont(font);
+        ArrayList<User> topUsers = new ArrayList<>();
+        int len = users.size();
+        if (users.size() > 10) {
+            len = 10;
+        }
+        for (int i = 0; i < 10; i++) {
+            topUsers.add(users.get(i));
+        }
 
         TableView<User> table = new TableView<>();
-        ObservableList<User> data = FXCollections.observableArrayList(users);
+        ObservableList<User> data = FXCollections.observableArrayList(topUsers);
 
         // Creating score and user columns
         TableColumn<User, Integer> scoreCol = new TableColumn("Score");

@@ -20,8 +20,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import jdk.internal.util.xml.impl.Input;
+import menu.SignUpPage;
+import menu.SignInPage;
 import objs.Entity;
 import objs.Vector;
+import menu.HighScorePage;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,6 +39,10 @@ public class Main extends Application {
   public static int GAME_HEIGHT = 600;
   public Scene menuScene = null;
   public Scene scoresPage = null;
+  public Scene signUpPage = null;
+  public Scene signInPage = null;
+  public static boolean isSignedIn = false;
+  public String id;
   public MediaPlayer mediaPlayer;
 
   public static void main(String[] args) {
@@ -55,7 +62,7 @@ public class Main extends Application {
       }
     });
     VBox menu = new VBox();
-    VBox highScores = new VBox();
+    ArrayList<User> users = Database.getHighScores();
 
     // set canvas and context
     Canvas canvas = new Canvas(GAME_WIDTH, GAME_HEIGHT);
@@ -77,46 +84,32 @@ public class Main extends Application {
         }
     );
 
-    // button that takes you to the high scores page
+    // initialize buttons
     Button scoresButton = new Button();
-    scoresButton.setText("View High Scores");
-    scoresButton.setOnAction(new EventHandler<ActionEvent>() {
-
-      @Override
-      public void handle(ActionEvent event) {
-        stage.setScene(scoresPage);
-      }
-    });
-
-    // back button
+    Button signUpButton = new Button();
+    Button signInButton = new Button();
     Button backButton = new Button();
-    backButton.setText("Back Button");
-    backButton.setOnAction(new EventHandler<ActionEvent>() {
-
-      // when the button is clicked, we swap the menu scene out for the game scene
-      @Override
-      public void handle(ActionEvent event) {
-        stage.setScene(menuScene);
-      }
-    });
-
-    // high scores page
-    ArrayList<User> users = new ArrayList<>();
-    users = Database.getHighScores();
-
-    TableView<User> table = new TableView<>();
-    ScoresTable scoresTable = new ScoresTable();
-    table = scoresTable.makeTable(users);
-
-    highScores.getChildren().addAll(table, backButton);
-    scoresPage = new Scene(highScores, 300, 300);
-
-    // button that starts the game
+    Button backButton2 = new Button();
+    Button backButton3 = new Button();
     Button startButton = new Button();
-    startButton.setText("Start game");
-    startButton.setOnAction(new EventHandler<ActionEvent>() {
 
-      // when the button is clicked, we swap the menu scene out for the game scene
+    //set text for buttons
+    scoresButton.setText("View High Scores");
+    signUpButton.setText("Sign Up");
+    signInButton.setText("Sign In");
+    backButton.setText("Back Button");
+    backButton2.setText("Back Button");
+    backButton3.setText("Back Button");
+    startButton.setText("Start game");
+
+    // create all the scene-swapping events for when you click the buttons
+    scoresButton.setOnAction(new EventHandler<ActionEvent>() { @Override public void handle(ActionEvent event) { stage.setScene(scoresPage); }});
+    signUpButton.setOnAction(new EventHandler<ActionEvent>() { @Override public void handle(ActionEvent event) { stage.setScene(signUpPage); }});
+    signInButton.setOnAction(new EventHandler<ActionEvent>() { @Override public void handle(ActionEvent event) { stage.setScene(signInPage); }});
+    backButton.setOnAction(new EventHandler<ActionEvent>() { @Override public void handle(ActionEvent event) { stage.setScene(menuScene); }});
+    backButton2.setOnAction(new EventHandler<ActionEvent>() { @Override public void handle(ActionEvent event) { stage.setScene(menuScene); }});
+    backButton3.setOnAction(new EventHandler<ActionEvent>() { @Override public void handle(ActionEvent event) { stage.setScene(menuScene); }});
+    startButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
         stage.setScene(gameScene.getScene());
@@ -124,11 +117,13 @@ public class Main extends Application {
       }
     });
 
-    // menu scene
-    menu.getChildren().addAll(startButton, scoresButton);
+    menu.getChildren().addAll(startButton, scoresButton, signUpButton, signInButton);
 
     // start the menu
-    menuScene = new Scene(menu, 300, 300);
+    signUpPage = SignUpPage.makeSignUpPage(backButton, users);
+    signInPage = SignInPage.makeSignInPage(backButton2, users);
+    scoresPage = HighScorePage.makeScoresPage(backButton3, users);
+    menuScene = new Scene(menu, GAME_WIDTH, GAME_HEIGHT);
     stage.setScene(menuScene);
     stage.show();
   }
