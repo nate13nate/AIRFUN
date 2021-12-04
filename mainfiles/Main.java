@@ -1,9 +1,6 @@
 package mainfiles;
 
-import Entities.Death;
-import Entities.Enemy;
-import Entities.Platform;
-import Entities.Player;
+import Entities.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,8 +14,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import jdk.internal.util.xml.impl.Input;
 import menu.SignUpPage;
 import menu.SignInPage;
@@ -26,6 +26,7 @@ import objs.Entity;
 import objs.Vector;
 import menu.HighScorePage;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import database.User;
@@ -42,6 +43,7 @@ public class Main extends Application {
   public Scene signInPage = null;
   public static boolean isSignedIn = false;
   public String id;
+  public MediaPlayer mediaPlayer;
 
   public static void main(String[] args) {
     launch(args);
@@ -49,6 +51,16 @@ public class Main extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
+    Media media = new Media(new File("src\\music\\musac.wav").toURI().toString());
+    mediaPlayer = new MediaPlayer(media);
+    mediaPlayer.setVolume(.1);
+    mediaPlayer.setAutoPlay(true);
+    mediaPlayer.setOnEndOfMedia(new Runnable() {
+      @Override
+      public void run() {
+        mediaPlayer.seek(Duration.ZERO);
+      }
+    });
     VBox menu = new VBox();
     ArrayList<User> users = Database.getHighScores();
 
@@ -66,8 +78,8 @@ public class Main extends Application {
         GameScene.getDefaultInputHandler(),
         new Entity[]{
             new Player("images\\turtle.png", new Vector(100, 100), new Vector(5, 5), 10, 7, 175),
-            new Platform("images\\turtle.png", new Vector(-25, -500), new Vector(1, 200), 0, new String[] {"images\\platformLeftEnd.png", "images\\platform.png", "images\\platformRightEnd.png"}, 1, false),
-            new Platform("images\\turtle.png", new Vector(805, -500), new Vector(1, 200), 0, new String[] {"images\\platformLeftEnd.png", "images\\platform.png", "images\\platformRightEnd.png"}, 1, false),
+            new WallPlatform("images\\turtle.png", new Vector(-25, -500), new Vector(1, 200), 0, new String[] {"images\\platformLeftEnd.png", "images\\platform.png", "images\\platformRightEnd.png"}, 1, false),
+            new WallPlatform("images\\turtle.png", new Vector(805, -500), new Vector(1, 200), 0, new String[] {"images\\platformLeftEnd.png", "images\\platform.png", "images\\platformRightEnd.png"}, 1, false),
             new Death("images\\turtle.png", new Vector(0, 650), new Vector(50, 1)),
         }
     );
