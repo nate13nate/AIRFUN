@@ -36,6 +36,7 @@ public class GameScene {
   private CollisionHandler collisionHandler;
 
   private PlatformGenerator platformGenerator;
+  private EnemyGenerator enemyGenerator;
 
   private LinkedList<Entity> entities;
 
@@ -75,6 +76,7 @@ public class GameScene {
     scene = new Scene(borderPane);
 
     platformGenerator = new PlatformGenerator(this);
+    enemyGenerator = new EnemyGenerator(this);
   }
 
   public void start() {
@@ -84,6 +86,7 @@ public class GameScene {
 
     // run start for program segments
     platformGenerator.start(context);
+    enemyGenerator.start(context);
     inputHandler.start();
     for (Entity entity : entities) {
       entity.calcStart();
@@ -109,6 +112,7 @@ public class GameScene {
 
         // run loop for different program segments
         platformGenerator.loop(context, deltaTime);
+        enemyGenerator.loop(context, deltaTime);
         inputHandler.loop(deltaTime);
         for (Entity entity : entities) {
           entity.calcLoop(deltaTime);
