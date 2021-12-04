@@ -14,12 +14,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import jdk.internal.util.xml.impl.Input;
 import objs.Entity;
 import objs.Vector;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import database.User;
@@ -32,6 +36,7 @@ public class Main extends Application {
   public static int GAME_HEIGHT = 600;
   public Scene menuScene = null;
   public Scene scoresPage = null;
+  public MediaPlayer mediaPlayer;
 
   public static void main(String[] args) {
     launch(args);
@@ -39,6 +44,16 @@ public class Main extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
+    Media media = new Media(new File("src\\music\\musac.wav").toURI().toString());
+    mediaPlayer = new MediaPlayer(media);
+    mediaPlayer.setVolume(.1);
+    mediaPlayer.setAutoPlay(true);
+    mediaPlayer.setOnEndOfMedia(new Runnable() {
+      @Override
+      public void run() {
+        mediaPlayer.seek(Duration.ZERO);
+      }
+    });
     VBox menu = new VBox();
     VBox highScores = new VBox();
 

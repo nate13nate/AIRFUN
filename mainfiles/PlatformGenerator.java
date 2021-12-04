@@ -94,7 +94,7 @@ public class PlatformGenerator {
         length++;
       }
 
-      if (rand.nextInt(10) == 0) {
+      if (rand.nextInt(20) == 0) {
         Slow slow = new Slow(
             "images\\slowdownthing.png",
             new Vector(x + 50, y - 20),
