@@ -11,12 +11,8 @@ import mainfiles.Main;
 import java.util.ArrayList;
 
 public class HighScorePage {
-    public static Scene makeScoresPage(Button button) {
+    public static Scene makeScoresPage(Button button, ArrayList<User> users) {
         VBox highScores = new VBox();
-
-        // high scores page
-        ArrayList<User> users = new ArrayList<>();
-        users = Database.getHighScores();
 
         TableView<User> table = new TableView<>();
         ScoresTable scoresTable = new ScoresTable();

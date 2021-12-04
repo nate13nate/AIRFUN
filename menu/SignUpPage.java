@@ -13,9 +13,9 @@ import javafx.scene.layout.VBox;
 import mainfiles.Main;
 import java.util.ArrayList;
 
-public class SignInPage {
-    public static Scene makeSignInPage(Button button, ArrayList<User> users) {
-        VBox signIn = new VBox();
+public class SignUpPage {
+    public static Scene makeSignUpPage(Button button, ArrayList<User> users) {
+        VBox signUp = new VBox();
         HBox password = new HBox();
         HBox userName = new HBox();
         Label name = new Label("Name");
@@ -33,25 +33,25 @@ public class SignInPage {
         submit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println(users.get(users.size()-1).getUserName());
+                boolean isUnique = true;
                 if (enterName.getText().compareTo("") != 0) {
                     for (int i = 0; i < users.size(); i++) {
                         if (enterName.getText().compareTo(users.get(i).getUserName()) == 0) {
-                            if (enterPass.getText().compareTo(users.get(i).getPass()) == 0) {
-                                message.setText("Successfully signed in! You can press the back button to return to the menu");
-                                Main.isSignedIn = true;
-                                break;
-                            }
+                            isUnique = false;
+                            message.setText("That username is already taken!");
+                            break;
                         }
                     }
-                    if (!Main.isSignedIn) {
-                        message.setText("Incorrect username or password");
+                    if (isUnique) {
+                        message.setText("Success! Go to the sign in page to sign in with your new account");
+                        database.MakeNewUser.makeUser(enterName.getText(), enterPass.getText(), users);
+                        System.out.println(users.get(users.size()-1).getUserName());
                     }
                 }
             }
         });
 
-        signIn.getChildren().addAll(userName, password, message, submit, button);
-        return new Scene(signIn, Main.GAME_WIDTH, Main.GAME_HEIGHT);
+        signUp.getChildren().addAll(userName, password, message, submit, button);
+        return new Scene(signUp, Main.GAME_WIDTH, Main.GAME_HEIGHT);
     }
 }

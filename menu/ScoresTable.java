@@ -11,6 +11,10 @@ import java.util.ArrayList;
 public class ScoresTable {
     public static TableView makeTable(ArrayList<User> users) {
         ArrayList<User> topUsers = new ArrayList<>();
+        int len = users.size();
+        if (users.size() > 10) {
+            len = 10;
+        }
         for (int i = 0; i < 10; i++) {
             topUsers.add(users.get(i));
         }

@@ -27,10 +27,10 @@ public class SettingData extends Application {
         //Creating a table view
         TableView<User> table = new TableView<User>();
         final ObservableList<User> data = FXCollections.observableArrayList(
-                new User(100, "Jim"),
-                new User(200, "Tim"),
-                new User(300, "Kim"),
-                new User(400, "Nim")
+                new User(100, "Jim", "pass"),
+                new User(200, "Tim", "pass"),
+                new User(300, "Kim", "pass"),
+                new User(400, "Nim", "pass")
         );
 
         //Creating columns

@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import jdk.internal.util.xml.impl.Input;
+import menu.SignUpPage;
 import menu.SignInPage;
 import objs.Entity;
 import objs.Vector;
@@ -37,8 +38,10 @@ public class Main extends Application {
   public static int GAME_HEIGHT = 600;
   public Scene menuScene = null;
   public Scene scoresPage = null;
+  public Scene signUpPage = null;
   public Scene signInPage = null;
-  public boolean isSignedIn = false;
+  public static boolean isSignedIn = false;
+  public String id;
 
   public static void main(String[] args) {
     launch(args);
@@ -47,6 +50,7 @@ public class Main extends Application {
   @Override
   public void start(Stage stage) throws Exception {
     VBox menu = new VBox();
+    ArrayList<User> users = Database.getHighScores();
 
     // set canvas and context
     Canvas canvas = new Canvas(GAME_WIDTH, GAME_HEIGHT);
@@ -70,23 +74,29 @@ public class Main extends Application {
 
     // initialize buttons
     Button scoresButton = new Button();
+    Button signUpButton = new Button();
     Button signInButton = new Button();
     Button backButton = new Button();
     Button backButton2 = new Button();
+    Button backButton3 = new Button();
     Button startButton = new Button();
 
     //set text for buttons
     scoresButton.setText("View High Scores");
+    signUpButton.setText("Sign Up");
     signInButton.setText("Sign In");
     backButton.setText("Back Button");
     backButton2.setText("Back Button");
+    backButton3.setText("Back Button");
     startButton.setText("Start game");
 
     // create all the scene-swapping events for when you click the buttons
     scoresButton.setOnAction(new EventHandler<ActionEvent>() { @Override public void handle(ActionEvent event) { stage.setScene(scoresPage); }});
+    signUpButton.setOnAction(new EventHandler<ActionEvent>() { @Override public void handle(ActionEvent event) { stage.setScene(signUpPage); }});
     signInButton.setOnAction(new EventHandler<ActionEvent>() { @Override public void handle(ActionEvent event) { stage.setScene(signInPage); }});
     backButton.setOnAction(new EventHandler<ActionEvent>() { @Override public void handle(ActionEvent event) { stage.setScene(menuScene); }});
     backButton2.setOnAction(new EventHandler<ActionEvent>() { @Override public void handle(ActionEvent event) { stage.setScene(menuScene); }});
+    backButton3.setOnAction(new EventHandler<ActionEvent>() { @Override public void handle(ActionEvent event) { stage.setScene(menuScene); }});
     startButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -95,11 +105,12 @@ public class Main extends Application {
       }
     });
 
-    menu.getChildren().addAll(startButton, scoresButton, signInButton);
+    menu.getChildren().addAll(startButton, scoresButton, signUpButton, signInButton);
 
     // start the menu
-    signInPage = SignInPage.makeSignInPage(backButton);
-    scoresPage = HighScorePage.makeScoresPage(backButton2);
+    signUpPage = SignUpPage.makeSignUpPage(backButton, users);
+    signInPage = SignInPage.makeSignInPage(backButton2, users);
+    scoresPage = HighScorePage.makeScoresPage(backButton3, users);
     menuScene = new Scene(menu, GAME_WIDTH, GAME_HEIGHT);
     stage.setScene(menuScene);
     stage.show();
