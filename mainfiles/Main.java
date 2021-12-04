@@ -1,5 +1,6 @@
 package mainfiles;
 
+import Entities.Death;
 import Entities.Platform;
 import Entities.Player;
 import javafx.application.Application;
@@ -58,7 +59,8 @@ public class Main extends Application {
         new Entity[]{
             new Player("images\\turtle.png", new Vector(100, 100), new Vector(5, 5), 10, 7, 175),
             new Platform("images\\turtle.png", new Vector(-25, 0), new Vector(1, 50), 0, new String[] {"images\\platformLeftEnd.png", "images\\platform.png", "images\\platformRightEnd.png"}, 1, false),
-            new Platform("images\\turtle.png", new Vector(805, 0), new Vector(1, 50), 0, new String[] {"images\\platformLeftEnd.png", "images\\platform.png", "images\\platformRightEnd.png"}, 1, false)
+            new Platform("images\\turtle.png", new Vector(805, 0), new Vector(1, 50), 0, new String[] {"images\\platformLeftEnd.png", "images\\platform.png", "images\\platformRightEnd.png"}, 1, false),
+            new Death("images\\turtle.png", new Vector(0, 500), new Vector(50, 1))
         }
     );
 
