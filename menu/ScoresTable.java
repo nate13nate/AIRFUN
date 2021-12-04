@@ -15,7 +15,7 @@ public class ScoresTable {
         if (users.size() > 10) {
             len = 10;
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < len; i++) {
             topUsers.add(users.get(i));
         }
 
