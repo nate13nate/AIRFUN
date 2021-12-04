@@ -1,6 +1,7 @@
 package mainfiles;
 
 import Entities.Platform;
+import Entities.Slow;
 import colliders.PlatformCollider;
 import javafx.scene.canvas.GraphicsContext;
 import objs.Vector;
@@ -91,6 +92,19 @@ public class PlatformGenerator {
         platforms[(start + length) % platforms.length].renderStart(context);
         scene.addEntity(platforms[(start + length) % platforms.length]);
         length++;
+      }
+
+      if (rand.nextInt(10) == 0) {
+        Slow slow = new Slow(
+            "images\\slowdownthing.png",
+            new Vector(x + 50, y - 20),
+            new Vector(5, 5),
+            10
+        );
+        slow.setScene(scene);
+        slow.calcStart();
+        slow.renderStart(context);
+        scene.addEntity(slow);
       }
     }
     for (int i = 0; i < platforms.length; i++) {

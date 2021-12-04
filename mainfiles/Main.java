@@ -1,9 +1,6 @@
 package mainfiles;
 
-import Entities.Death;
-import Entities.Enemy;
-import Entities.Platform;
-import Entities.Player;
+import Entities.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -59,8 +56,8 @@ public class Main extends Application {
         GameScene.getDefaultInputHandler(),
         new Entity[]{
             new Player("images\\turtle.png", new Vector(100, 100), new Vector(5, 5), 10, 7, 175),
-            new Platform("images\\turtle.png", new Vector(-25, -500), new Vector(1, 200), 0, new String[] {"images\\platformLeftEnd.png", "images\\platform.png", "images\\platformRightEnd.png"}, 1, false),
-            new Platform("images\\turtle.png", new Vector(805, -500), new Vector(1, 200), 0, new String[] {"images\\platformLeftEnd.png", "images\\platform.png", "images\\platformRightEnd.png"}, 1, false),
+            new WallPlatform("images\\turtle.png", new Vector(-25, -500), new Vector(1, 200), 0, new String[] {"images\\platformLeftEnd.png", "images\\platform.png", "images\\platformRightEnd.png"}, 1, false),
+            new WallPlatform("images\\turtle.png", new Vector(805, -500), new Vector(1, 200), 0, new String[] {"images\\platformLeftEnd.png", "images\\platform.png", "images\\platformRightEnd.png"}, 1, false),
             new Death("images\\turtle.png", new Vector(0, 650), new Vector(50, 1)),
         }
     );

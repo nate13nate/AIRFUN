@@ -33,7 +33,7 @@ public class CollisionHandler {
   public void loop(double deltaTime) {
     for (Collider collider : colliders) {
       for (Collider other : colliders) {
-        if (collider.equals(other)) continue;
+        if (collider == null || other == null || collider.equals(other)) continue;
 
         Vector overlap = collider.overlaps(other);
 
@@ -41,6 +41,5 @@ public class CollisionHandler {
         other.action(collider, overlap);
       }
     }
-//    System.out.println("===========================================");
   }
 }
