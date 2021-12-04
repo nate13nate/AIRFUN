@@ -4,16 +4,15 @@ import Entities.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -37,12 +36,13 @@ public class Main extends Application {
   // dimensions of game window in pixels
   public static int GAME_WIDTH = 800;
   public static int GAME_HEIGHT = 600;
-  public Scene menuScene = null;
+  public static Scene menuScene = null;
   public Scene scoresPage = null;
   public Scene signUpPage = null;
   public Scene signInPage = null;
   public static boolean isSignedIn = false;
-  public String id;
+  public static String userName;
+  public static int userScore;
   public MediaPlayer mediaPlayer;
 
   public static void main(String[] args) {
@@ -51,17 +51,17 @@ public class Main extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-    Media media = new Media(new File("src\\music\\musac.wav").toURI().toString());
-    mediaPlayer = new MediaPlayer(media);
-    mediaPlayer.setVolume(.1);
-    mediaPlayer.setAutoPlay(true);
-    mediaPlayer.setOnEndOfMedia(new Runnable() {
-      @Override
-      public void run() {
-        mediaPlayer.seek(Duration.ZERO);
-      }
-    });
-    VBox menu = new VBox();
+//    Media media = new Media(new File("src\\music\\musac.wav").toURI().toString());
+//    mediaPlayer = new MediaPlayer(media);
+//    mediaPlayer.setVolume(.1);
+//    mediaPlayer.setAutoPlay(true);
+//    mediaPlayer.setOnEndOfMedia(new Runnable() {
+//      @Override
+//      public void run() {
+//        mediaPlayer.seek(Duration.ZERO);
+//      }
+//    });
+    VBox menu = new VBox(10);
     ArrayList<User> users = Database.getHighScores();
 
     // set canvas and context
@@ -69,20 +69,6 @@ public class Main extends Application {
     GraphicsContext context = canvas.getGraphicsContext2D();
 
     // original input handler
-
-    // original game scene
-    GameScene gameScene = new GameScene(
-        canvas,
-        context,
-        stage,
-        GameScene.getDefaultInputHandler(),
-        new Entity[]{
-            new Player("images\\turtle.png", new Vector(100, 100), new Vector(5, 5), 10, 7, 175),
-            new WallPlatform("images\\turtle.png", new Vector(-25, -500), new Vector(1, 200), 0, new String[] {"images\\platformLeftEnd.png", "images\\platform.png", "images\\platformRightEnd.png"}, 1, false),
-            new WallPlatform("images\\turtle.png", new Vector(805, -500), new Vector(1, 200), 0, new String[] {"images\\platformLeftEnd.png", "images\\platform.png", "images\\platformRightEnd.png"}, 1, false),
-            new Death("images\\turtle.png", new Vector(0, 650), new Vector(50, 1)),
-        }
-    );
 
     // initialize buttons
     Button scoresButton = new Button();
@@ -112,12 +98,67 @@ public class Main extends Application {
     startButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
+        GameScene gameScene = new GameScene(
+          canvas,
+          context,
+          stage,
+          GameScene.getDefaultInputHandler(),
+          new Entity[]{
+            new Player("images\\turtle.png", new Vector(100, 100), new Vector(5, 5), 10, 7, 175),
+            new WallPlatform("images\\turtle.png", new Vector(-25, -500), new Vector(1, 200), 0, new String[] {"images\\platformLeftEnd.png", "images\\platform.png", "images\\platformRightEnd.png"}, 1, false),
+            new WallPlatform("images\\turtle.png", new Vector(805, -500), new Vector(1, 200), 0, new String[] {"images\\platformLeftEnd.png", "images\\platform.png", "images\\platformRightEnd.png"}, 1, false),
+            new Death("images\\turtle.png", new Vector(0, 650), new Vector(50, 1)),
+          }
+        );
         stage.setScene(gameScene.getScene());
         gameScene.start();
       }
     });
 
     menu.getChildren().addAll(startButton, scoresButton, signUpButton, signInButton);
+
+    // CSS GOD HELP ME
+    int buttonWidth = 300;
+    int buttonHeight = 94;
+    Image image = new Image(
+            "./images/button.png",
+            buttonWidth,
+            buttonHeight,
+            false,
+            false
+    );
+    BackgroundImage bgim = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+    Background bg = new Background(bgim);
+    menu.setStyle("-fx-background-image: url('./images/background.png'); -fx-background-size: cover; -fx-font-size: 18pt; -fx-font-family: SansSerif Bold;");
+    menu.setAlignment(Pos.CENTER);
+
+    startButton.setBackground(bg);
+    startButton.setMinWidth(buttonWidth);
+    startButton.setMinHeight(buttonHeight);
+
+    signInButton.setBackground(bg);
+    signInButton.setMinWidth(buttonWidth);
+    signInButton.setMinHeight(buttonHeight);
+
+    signUpButton.setBackground(bg);
+    signUpButton.setMinWidth(buttonWidth);
+    signUpButton.setMinHeight(buttonHeight);
+
+    scoresButton.setBackground(bg);
+    scoresButton.setMinWidth(buttonWidth);
+    scoresButton.setMinHeight(buttonHeight);
+
+    backButton.setBackground(bg);
+    backButton.setMinWidth(buttonWidth);
+    backButton.setMinHeight(buttonHeight);
+
+    backButton2.setBackground(bg);
+    backButton2.setMinWidth(buttonWidth);
+    backButton2.setMinHeight(buttonHeight);
+
+    backButton3.setBackground(bg);
+    backButton3.setMinWidth(buttonWidth);
+    backButton3.setMinHeight(buttonHeight);
 
     // start the menu
     signUpPage = SignUpPage.makeSignUpPage(backButton, users);

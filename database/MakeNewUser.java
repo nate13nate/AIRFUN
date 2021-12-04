@@ -11,23 +11,18 @@ public class MakeNewUser {
         Connection con = null;
         Statement insert = null;
         try {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-            } catch (Exception e) {
-                System.out.println(e);
-            }
+            try { Class.forName("com.mysql.cj.jdbc.Driver"); }
+            catch (Exception e) { System.out.println(e); }
+
             con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/mydb", "root", "root");
-            System.out.println("Connection is created successfully:");
             insert = (Statement) con.createStatement();
             String query1 = "INSERT INTO high_scores " + "VALUES (0, \"" + name + "\", \"" + id + "\", \"" + pass + "\")";
             insert.executeUpdate(query1);
-            System.out.println("Record is inserted in the table successfully..................");
             users.add(new User(0, name, pass));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
+        }
+        catch (SQLException e) { e.printStackTrace(); }
+        catch (Exception e) { e.printStackTrace(); }
+        finally {
             try {
                 if (insert != null)
                     con.close();
@@ -35,10 +30,7 @@ public class MakeNewUser {
             try {
                 if (con != null)
                     con.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
+            } catch (SQLException se) { se.printStackTrace(); }
         }
-        System.out.println("Please check it in the MySQL Table......... ……..");
     }
 }

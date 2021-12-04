@@ -18,5 +18,8 @@ public class DeathCollider extends Collider {
   @Override
   public void action(Collider collider, Vector overlap) {
     parent.scene.setDead(true);
+    mainfiles.SaveScore.setNewScore((int)parent.scene.points);
+    System.out.println(parent.scene.points);
+    parent.scene.changeScene(mainfiles.Main.menuScene);
   }
 }

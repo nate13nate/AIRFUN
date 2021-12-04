@@ -126,10 +126,9 @@ public class GameScene {
   }
 
   // needs to be tested
-  public void changeScene(GameScene scene) {
+  public void changeScene(Scene scene) {
     // start other scene
-    stage.setScene(scene.getScene());
-    scene.start();
+    stage.setScene(scene);
 
     // stop this scene
     gameLoop.stop();
