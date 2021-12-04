@@ -132,6 +132,10 @@ public class Collider {
     return parent.getVelocity().getVelocity();
   }
 
+  public void addForce(Vector force) {
+    parent.getVelocity().addForce(force);
+  }
+
   public void removeVelocity(Vector velocity) {
     Vector parentVelocity = parent.getVelocity().getVelocity();
     double x = velocity.getX() == 0 ? 0 : parentVelocity.getX();

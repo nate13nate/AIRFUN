@@ -36,6 +36,7 @@ public class GameScene {
   private CollisionHandler collisionHandler;
 
   private PlatformGenerator platformGenerator;
+  private EnemyGenerator enemyGenerator;
 
   private LinkedList<Entity> entities;
 
@@ -47,6 +48,8 @@ public class GameScene {
   public double distanceMoved = -200;
   public double points = distanceMoved + 200;
   public double increaseAmount = 4;
+
+  private boolean dead = false;
 
   public GameScene(
       Canvas canvas,
@@ -73,6 +76,7 @@ public class GameScene {
     scene = new Scene(borderPane);
 
     platformGenerator = new PlatformGenerator(this);
+    enemyGenerator = new EnemyGenerator(this);
   }
 
   public void start() {
@@ -82,6 +86,7 @@ public class GameScene {
 
     // run start for program segments
     platformGenerator.start(context);
+    enemyGenerator.start(context);
     inputHandler.start();
     for (Entity entity : entities) {
       entity.calcStart();
@@ -100,13 +105,14 @@ public class GameScene {
         previous = now;
 
         distanceMoved += increaseAmount;
-        points = distanceMoved + 200;
+        if (!dead) points = distanceMoved + 200;
         increaseAmount += deltaTime * .07;
 
         background.render(context);
 
         // run loop for different program segments
         platformGenerator.loop(context, deltaTime);
+        enemyGenerator.loop(context, deltaTime);
         inputHandler.loop(deltaTime);
         for (Entity entity : entities) {
           entity.calcLoop(deltaTime);
@@ -145,5 +151,9 @@ public class GameScene {
   public void removeEntity(Entity entity) {
     entities.remove(entity);
     collisionHandler.removeCollider(entity);
+  }
+
+  public void setDead(boolean dead) {
+    this.dead = dead;
   }
 }

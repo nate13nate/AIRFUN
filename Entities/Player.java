@@ -25,14 +25,14 @@ public class Player extends Entity {
 
   @Override
   public void calcLoop(double deltaTime) {
-    speed = scene.increaseAmount * 1.5;
+//    speed = scene.increaseAmount * 1.5;
     boolean left = scene.getInputValue("LEFT") == 1;
     boolean right = scene.getInputValue("RIGHT") == 1;
     double horiz = 0;
     double verti = 0;
 
-    if (!(left && right) && left) horiz = -speed;
-    else if (!(left && right) && right) horiz = speed;
+    if (!(left && right) && left) horiz = -scene.increaseAmount * .5;
+    else if (!(left && right) && right) horiz = scene.increaseAmount * 1.5;
 
     if (scene.getInputValue("ACTION") == 1 && canJump) {
       verti = -jumpForce;

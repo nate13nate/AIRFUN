@@ -8,7 +8,7 @@ public class Entity {
   protected Sprite sprite;
   protected Vector position;
   protected Velocity velocity;
-  protected GameScene scene;
+  public GameScene scene;
   protected boolean useThingy;
 
   public Entity(String imageFileName, Vector position, Vector scale, double gravity, boolean useThingy) {
